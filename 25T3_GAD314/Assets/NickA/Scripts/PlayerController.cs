@@ -3,10 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    // to do - comment
-    // fix movement
 
-
+    private float horizontal; // direction to move left and right
+    private bool isFacinRight;
 
     public float jumpPower;
     public float movementSpeed;
@@ -24,12 +23,49 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if ((InputSystem.GetDevice<Keyboard>().spaceKey.isPressed) && IsGrounded()) 
+
+        if (Keyboard.current != null)
+        {
+            if (Keyboard.current.aKey.isPressed) // A - left
+            {
+                horizontal = -1f;
+            }
+            else if (Keyboard.current.dKey.isPressed) // D - right
+            {
+                horizontal = 1f;
+            } 
+            else // no input
+            {
+                horizontal = 0f;
+            }
+        }
+
+        FlipSprite();
+
+        if (((InputSystem.GetDevice<Keyboard>().spaceKey.isPressed) || (InputSystem.GetDevice<Keyboard>().wKey.isPressed)) && IsGrounded()) // W or Space - jump
         {
             rbPlayer.angularVelocity = 0f; // test
             rbPlayer.linearVelocity = Vector3.zero; // test, better?
             rbPlayer.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse); 
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        rbPlayer.linearVelocity = new Vector2(horizontal * movementSpeed, rbPlayer.linearVelocity.y);
+    }
+
+
+    private void FlipSprite()
+    {
+        if (isFacinRight && horizontal < 0f || !isFacinRight && horizontal > 0f)
+        {
+            isFacinRight = !isFacinRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+
+
         }
     }
 
