@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +15,9 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
 
     private Rigidbody2D rbPlayer;
+
+    public GameObject lightAttackHitbox;
+    public GameObject HeavyAttackHitbox;
 
 
     void Start()
@@ -37,6 +42,15 @@ public class PlayerController : MonoBehaviour
             else // no input
             {
                 horizontal = 0f;
+            }
+
+            if(Keyboard.current.oKey.isPressed) // O - Light Attack
+            {
+                StartCoroutine(LightAttack());
+            }
+            else if (Keyboard.current.pKey.isPressed) // P - Heavy Attack
+            {
+                StartCoroutine(HeavyAttack());
             }
         }
 
@@ -85,6 +99,22 @@ public class PlayerController : MonoBehaviour
 
    
         return hit.collider != null;
+    }
+
+    public IEnumerator LightAttack()
+    {
+        lightAttackHitbox.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(0.16f);
+        lightAttackHitbox.SetActive(false);
+    }
+
+    public IEnumerator HeavyAttack()
+    {
+        HeavyAttackHitbox.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(0.48f);
+        HeavyAttackHitbox.SetActive(false);
     }
 
 }
