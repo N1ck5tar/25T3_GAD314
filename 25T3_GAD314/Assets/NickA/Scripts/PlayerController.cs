@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
         rbPlayer.linearVelocity = new Vector2(horizontal * movementSpeed, rbPlayer.linearVelocity.y);
     }
 
+    #region Sprite & Ground
 
     private void FlipSprite()
     {
@@ -86,5 +87,7 @@ public class PlayerController : MonoBehaviour
    
         return hit.collider != null;
     }
+
+    #endregion
 
 }
