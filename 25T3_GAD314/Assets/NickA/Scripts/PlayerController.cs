@@ -1,31 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 
 public class PlayerController : MonoBehaviour
 {
+    // TO-DO list
+
+    // bool deciding if player can move
+
 
     private float horizontal; // direction to move left and right
     private bool isFacinRight;
-
-    public float jumpPower;
-    public float movementSpeed;
-
-    public LayerMask groundLayer;
-
     private Rigidbody2D rbPlayer;
 
-    public GameObject lightAttackHitbox;
-    public GameObject HeavyAttackHitbox;
 
+    [Header("Movement")]
+    [SerializeField] private float jumpPower;
+    [SerializeField] private float movementSpeed;
+
+    [SerializeField] private LayerMask groundLayer;
+
+    [SerializeField] private float downFallingForce;
+
+    [SerializeField] private float maxSpeed;
+
+    [Header("Player Health")]
+    [SerializeField] private float currentHealth;
+    [SerializeField] private float maximumHealth;
+    [SerializeField] private Image HealthBarUI;
 
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -43,78 +53,112 @@ public class PlayerController : MonoBehaviour
             {
                 horizontal = 0f;
             }
-
-            if(Keyboard.current.oKey.isPressed) // O - Light Attack
-            {
-                StartCoroutine(LightAttack());
-            }
-            else if (Keyboard.current.pKey.isPressed) // P - Heavy Attack
-            {
-                StartCoroutine(HeavyAttack());
-            }
+            // Debug.Log(horizontal);
         }
-
-        FlipSprite();
 
         if (((InputSystem.GetDevice<Keyboard>().spaceKey.isPressed) || (InputSystem.GetDevice<Keyboard>().wKey.isPressed)) && IsGrounded()) // W or Space - jump
         {
-            rbPlayer.angularVelocity = 0f; // test
-            rbPlayer.linearVelocity = Vector3.zero; // test, better?
+            // JUMP
+            rbPlayer.linearVelocity = Vector3.zero;
             rbPlayer.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse); 
         }
+
+        FlipSprite();
+        HealthBarUpdate();
+        IsPlayerDead();
+
     }
 
     private void FixedUpdate()
     {
         rbPlayer.linearVelocity = new Vector2(horizontal * movementSpeed, rbPlayer.linearVelocity.y);
+
+        if (!IsGrounded())
+        {
+            rbPlayer.AddForce(Vector3.down * downFallingForce, ForceMode2D.Force); // fall faster
+        }
+
+        Vector2 velocity = rbPlayer.linearVelocity; 
+
+        if (velocity.magnitude > maxSpeed) // check if over limit
+        {
+            velocity = velocity.normalized * maxSpeed; 
+            rbPlayer.linearVelocity = velocity; // add clamp limit
+        }
     }
 
+    #region Sprite & Ground Check
 
     private void FlipSprite()
     {
-        if (isFacinRight && horizontal < 0f || !isFacinRight && horizontal > 0f)
+        if (isFacinRight && horizontal < 0f || !isFacinRight && horizontal > 0f) // check facing diration
         {
+
+            //Debug.Log("flip");
+
+            //flip
             isFacinRight = !isFacinRight;
             Vector3 localScale = transform.localScale;
             localScale.x *= -1f;
             transform.localScale = localScale;
-
-
         }
     }
 
     bool IsGrounded()
     {
 
-        Vector2 rayPos = transform.position - new Vector3(0, 0.5f, 0); 
+        Vector2 rayPos = transform.position - new Vector3(0, 0.5f, 0); // IMPORTANT NOTE - 0.5 is half the cubes length, this will change with a different object as the player
         Vector2 rayDir = Vector2.down; 
 
         float rayLength = 0.1f;
 
+        //Debug.DrawRay(rayPos, rayDir * rayLength, Color.green);
 
-        Debug.DrawRay(rayPos, rayDir * rayLength, Color.green);
 
-
-        RaycastHit2D hit = Physics2D.Raycast(rayPos, rayDir, rayLength, groundLayer); 
+        RaycastHit2D hit = Physics2D.Raycast(rayPos, rayDir, rayLength, groundLayer); // grab whatever it hit, if it did
 
    
         return hit.collider != null;
     }
 
-    public IEnumerator LightAttack()
-    {
-        lightAttackHitbox.SetActive(true);
+    #endregion
 
-        yield return new WaitForSecondsRealtime(0.16f);
-        lightAttackHitbox.SetActive(false);
+    #region Health
+
+    public void ModifyPlayerHealth(int healthValue)
+    {
+        currentHealth += healthValue; // Health: + OR - 
+
+        HealthLimitCheck();
     }
 
-    public IEnumerator HeavyAttack()
+    public void HealthLimitCheck() // clamp health
     {
-        HeavyAttackHitbox.SetActive(true);
+        if (currentHealth > maximumHealth)
+        {
+            //Debug.Log("over limit");
+            currentHealth = maximumHealth;
+        }
 
-        yield return new WaitForSecondsRealtime(0.48f);
-        HeavyAttackHitbox.SetActive(false);
+        IsPlayerDead();
+
     }
+
+    public void IsPlayerDead()
+    {
+        if (currentHealth <= 0)
+        {
+            //Debug.Log("player dead");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name); // reload current scene if died
+        }
+    }
+
+
+    public void HealthBarUpdate()
+    {
+        HealthBarUI.fillAmount = currentHealth / maximumHealth; // 0-1 decimal / 0-100% HP
+    }
+
+    #endregion
 
 }
