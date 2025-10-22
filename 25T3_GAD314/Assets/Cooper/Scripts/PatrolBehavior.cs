@@ -7,7 +7,7 @@ public class PatrolBehavior : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private Transform currentPoint;
-    public float speed; // positive value moves enemy right & negative value moves enemy left
+    public float speed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -45,14 +45,14 @@ public class PatrolBehavior : MonoBehaviour
 
     }
 
-    private void flip()
+    private void flip() // changes sprite direction so it faces the way it is walking
     {
         Vector3 localScale = transform.localScale;
         localScale.x = -1;
         transform.localScale = localScale;
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmos() // shows where patrol is in scene view
     {
         Gizmos.DrawWireSphere(pointA.transform.position, 0.5f);
         Gizmos.DrawWireSphere(pointB.transform.position, 0.5f);
