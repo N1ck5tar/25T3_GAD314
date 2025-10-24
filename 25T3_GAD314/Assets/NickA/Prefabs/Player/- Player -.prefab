@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 4482237627824270835}
   - component: {fileID: 1100035821262773059}
   - component: {fileID: 5828395887199897015}
+  - component: {fileID: 1763032608728202514}
   m_Layer: 0
   m_Name: Light Attack
   m_TagString: Untagged
@@ -227,6 +228,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1763032608728202514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3060215195358773626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae599484a4b6d5c488212bc020d0c633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackDetection
+  playerBody: {fileID: 8836361899047042864}
 --- !u!1 &5577821624821527898
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,6 +252,7 @@ GameObject:
   - component: {fileID: 5991295480827606225}
   - component: {fileID: 1296607734223625949}
   - component: {fileID: 3056547134699267980}
+  - component: {fileID: 8421922857322675843}
   m_Layer: 0
   m_Name: Heavy Attack
   m_TagString: Untagged
@@ -364,6 +379,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8421922857322675843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5577821624821527898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae599484a4b6d5c488212bc020d0c633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackDetection
+  playerBody: {fileID: 8836361899047042864}
 --- !u!1 &8836361899047042864
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,3 +598,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   lightAttackHitbox: {fileID: 3060215195358773626}
   HeavyAttackHitbox: {fileID: 5577821624821527898}
+  lightAttackDamage: 0
+  heavyAttackDamage: 0

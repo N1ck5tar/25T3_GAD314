@@ -12,6 +12,7 @@ public class PlayerAttack : MonoBehaviour
     public int lightAttackDamage; 
     public int heavyAttackDamage;
 
+    bool attackOnCooldown; 
 
     void Start()
     {
@@ -26,11 +27,11 @@ public class PlayerAttack : MonoBehaviour
         if (Keyboard.current != null)
         {
 
-            if(Keyboard.current.oKey.isPressed) // O - Light Attack
+            if(Keyboard.current.oKey.isPressed && !attackOnCooldown) // O - Light Attack
             {
                 StartCoroutine(LightAttack());
             }
-            else if (Keyboard.current.pKey.isPressed) // P - Heavy Attack
+            else if (Keyboard.current.pKey.isPressed && !attackOnCooldown) // P - Heavy Attack
             {
                 StartCoroutine(HeavyAttack());
             }
@@ -40,6 +41,9 @@ public class PlayerAttack : MonoBehaviour
 
     public IEnumerator LightAttack()
     {
+        StartCoroutine(AttackCooldown(0.32f));
+        
+        yield return new WaitForSecondsRealtime(0.16f);
         lightAttackHitbox.SetActive(true);
 
         yield return new WaitForSecondsRealtime(0.16f);
@@ -48,10 +52,21 @@ public class PlayerAttack : MonoBehaviour
 
     public IEnumerator HeavyAttack()
     {
+        StartCoroutine(AttackCooldown(0.90f));
+
+        yield return new WaitForSecondsRealtime(0.32f);
         HeavyAttackHitbox.SetActive(true);
 
         yield return new WaitForSecondsRealtime(0.48f);
         HeavyAttackHitbox.SetActive(false);
+    }
+
+    public IEnumerator AttackCooldown(float cooldown)
+    {
+        attackOnCooldown = true; 
+
+        yield return new WaitForSecondsRealtime(cooldown);
+        attackOnCooldown = false; 
     }
 
 }
