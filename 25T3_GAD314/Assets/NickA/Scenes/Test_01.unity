@@ -1265,6 +1265,14 @@ PrefabInstance:
       propertyPath: m_Interpolate
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2929323339953630343, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
+      propertyPath: heavyAttackDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2929323339953630343, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
+      propertyPath: lightAttackDamage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3543412093834576627, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.42

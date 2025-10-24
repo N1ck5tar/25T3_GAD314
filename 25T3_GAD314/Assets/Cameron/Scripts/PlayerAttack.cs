@@ -9,10 +9,14 @@ public class PlayerAttack : MonoBehaviour
     public GameObject lightAttackHitbox;
     public GameObject HeavyAttackHitbox;
 
+    public int lightAttackDamage; 
+    public int heavyAttackDamage;
+
 
     void Start()
     {
-
+        //lightAttackDamage = 5; 
+        //heavyAttackDamage = 15;
     }
 
     // Update is called once per frame
