@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &311928119861580194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1929302032883969385}
+  m_Layer: 0
+  m_Name: Heavy Swing Centre
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1929302032883969385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311928119861580194}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: -0.8433915, w: 0.53729963}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5991295480827606225}
+  m_Father: {fileID: 3543412093834576627}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -115}
 --- !u!1 &589998056590253749
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,8 +150,8 @@ Transform:
   m_GameObject: {fileID: 3060215195358773626}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.9804001, y: 0.02000001, z: 0}
-  m_LocalScale: {x: 1.0992, y: 0.43781, z: 1}
+  m_LocalPosition: {x: -1.1, y: 0.02, z: 0}
+  m_LocalScale: {x: 1.2, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3543412093834576627}
@@ -241,6 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackDetection
   playerBody: {fileID: 8836361899047042864}
+  isLightAttack: 0
 --- !u!1 &5577821624821527898
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,11 +302,11 @@ Transform:
   m_GameObject: {fileID: 5577821624821527898}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.0795999, y: 0.069599986, z: 0}
-  m_LocalScale: {x: 1.2976099, y: 1.23149, z: 1}
+  m_LocalPosition: {x: -1.1, y: 0.02, z: 0}
+  m_LocalScale: {x: 1.2, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3543412093834576627}
+  m_Father: {fileID: 1929302032883969385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1296607734223625949
 SpriteRenderer:
@@ -392,6 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackDetection
   playerBody: {fileID: 8836361899047042864}
+  isLightAttack: 0
 --- !u!1 &8836361899047042864
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,7 +461,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4482237627824270835}
-  - {fileID: 5991295480827606225}
+  - {fileID: 1929302032883969385}
   - {fileID: 7378020633877413501}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -598,5 +632,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   lightAttackHitbox: {fileID: 3060215195358773626}
   HeavyAttackHitbox: {fileID: 5577821624821527898}
+  HeavyAttackSwivel: {fileID: 311928119861580194}
   lightAttackDamage: 0
   heavyAttackDamage: 0

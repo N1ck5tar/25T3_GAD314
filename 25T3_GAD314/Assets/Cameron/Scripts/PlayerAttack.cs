@@ -9,6 +9,8 @@ public class PlayerAttack : MonoBehaviour
     public GameObject lightAttackHitbox;
     public GameObject HeavyAttackHitbox;
 
+    public GameObject HeavyAttackSwivel; 
+
     public int lightAttackDamage; 
     public int heavyAttackDamage;
 
@@ -53,11 +55,18 @@ public class PlayerAttack : MonoBehaviour
     public IEnumerator HeavyAttack()
     {
         StartCoroutine(AttackCooldown(0.90f));
+        HeavyAttackSwivel.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -115f);
 
-        yield return new WaitForSecondsRealtime(0.32f);
+        yield return new WaitForSecondsRealtime(0.16f);
         HeavyAttackHitbox.SetActive(true);
 
-        yield return new WaitForSecondsRealtime(0.48f);
+        for(float r = -115; r < 20; r += 5)
+        {
+            HeavyAttackSwivel.transform.rotation = Quaternion.Euler(0.0f, 0.0f, r);
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+
+        //yield return new WaitForSecondsRealtime(0.48f);
         HeavyAttackHitbox.SetActive(false);
     }
 
