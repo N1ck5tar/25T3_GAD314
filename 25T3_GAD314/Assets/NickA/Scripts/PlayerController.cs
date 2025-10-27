@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float maxSpeed;
 
+    public bool canPlayerMove = true; // false = no, true = yes
+
     [Header("Player Health")]
     [SerializeField] private float currentHealth;
     [SerializeField] private float maximumHealth;
@@ -34,57 +36,78 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody2D>();
+
+        if (rbPlayer == null)
+        {
+            Debug.Log("Player Rigidbody could not be found");
+        }
     }
 
     void Update()
     {
-
-        if (Keyboard.current != null)
+        if (canPlayerMove == true)
         {
-            if (Keyboard.current.aKey.isPressed) // A - left
+            if (Keyboard.current != null)
             {
-                horizontal = -1f;
+                if (Keyboard.current.aKey.isPressed) // A - left
+                {
+                    horizontal = -1f;
+                }
+                else if (Keyboard.current.dKey.isPressed) // D - right
+                {
+                    horizontal = 1f;
+                }
+                else // no input
+                {
+                    horizontal = 0f;
+                }
+                // Debug.Log(horizontal);
             }
-            else if (Keyboard.current.dKey.isPressed) // D - right
-            {
-                horizontal = 1f;
-            } 
-            else // no input
-            {
-                horizontal = 0f;
-            }
-            // Debug.Log(horizontal);
-        }
 
-        if (((InputSystem.GetDevice<Keyboard>().spaceKey.isPressed) || (InputSystem.GetDevice<Keyboard>().wKey.isPressed)) && IsGrounded()) // W or Space - jump
-        {
-            // JUMP
-            rbPlayer.linearVelocity = Vector3.zero;
-            rbPlayer.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse); 
+            if (((InputSystem.GetDevice<Keyboard>().spaceKey.isPressed) || (InputSystem.GetDevice<Keyboard>().wKey.isPressed)) && IsGrounded()) // W or Space - jump
+            {
+                // JUMP
+                rbPlayer.linearVelocity = Vector3.zero;
+                rbPlayer.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            }
         }
 
         FlipSprite();
-        HealthBarUpdate();
-        IsPlayerDead();
+
+        if (HealthBarUI != null)
+        {
+            HealthBarUpdate();
+            IsPlayerDead();
+        }
+
+        else
+        {
+            Debug.Log("No Health bar UI connected");
+            return;
+        }
 
     }
 
     private void FixedUpdate()
     {
-        rbPlayer.linearVelocity = new Vector2(horizontal * movementSpeed, rbPlayer.linearVelocity.y);
-
-        if (!IsGrounded())
+        if (canPlayerMove == true)
         {
-            rbPlayer.AddForce(Vector3.down * downFallingForce, ForceMode2D.Force); // fall faster
+            rbPlayer.linearVelocity = new Vector2(horizontal * movementSpeed, rbPlayer.linearVelocity.y);
+
+            if (!IsGrounded())
+            {
+                rbPlayer.AddForce(Vector3.down * downFallingForce, ForceMode2D.Force); // fall faster
+            }
+
+            Vector2 velocity = rbPlayer.linearVelocity;
+
+            if (velocity.magnitude > maxSpeed) // check if over limit
+            {
+                velocity = velocity.normalized * maxSpeed;
+                rbPlayer.linearVelocity = velocity; // add clamp limit
+            }
         }
 
-        Vector2 velocity = rbPlayer.linearVelocity; 
-
-        if (velocity.magnitude > maxSpeed) // check if over limit
-        {
-            velocity = velocity.normalized * maxSpeed; 
-            rbPlayer.linearVelocity = velocity; // add clamp limit
-        }
     }
 
     #region Sprite & Ground Check
