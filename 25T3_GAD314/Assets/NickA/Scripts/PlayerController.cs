@@ -11,8 +11,9 @@ public class PlayerController : MonoBehaviour
     // bool deciding if player can move
 
 
-    private float horizontal; // direction to move left and right
-    private bool isFacinRight;
+    public float horizontal; // direction to move left and right
+    public bool isFacinRight;
+    public bool canFlip;
     private Rigidbody2D rbPlayer;
 
 
@@ -106,6 +107,9 @@ public class PlayerController : MonoBehaviour
                 velocity = velocity.normalized * maxSpeed;
                 rbPlayer.linearVelocity = velocity; // add clamp limit
             }
+        } else
+        {
+            rbPlayer.linearVelocity = new Vector2(0, 0);
         }
 
     }
@@ -114,20 +118,23 @@ public class PlayerController : MonoBehaviour
 
     private void FlipSprite()
     {
-        if (isFacinRight && horizontal < 0f || !isFacinRight && horizontal > 0f) // check facing diration
+        if (canFlip)
         {
+            if (isFacinRight && horizontal < 0f || !isFacinRight && horizontal > 0f) // check facing diration
+            {
 
-            //Debug.Log("flip");
+                //Debug.Log("flip");
 
-            //flip
-            isFacinRight = !isFacinRight;
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
+                //flip
+                isFacinRight = !isFacinRight;
+                Vector3 localScale = transform.localScale;
+                localScale.x *= -1f;
+                transform.localScale = localScale;
+            }
         }
     }
 
-    bool IsGrounded()
+    public bool IsGrounded()
     {
 
         Vector2 rayPos = transform.position - new Vector3(0, 0.5f, 0); // IMPORTANT NOTE - 0.5 is half the cubes length, this will change with a different object as the player

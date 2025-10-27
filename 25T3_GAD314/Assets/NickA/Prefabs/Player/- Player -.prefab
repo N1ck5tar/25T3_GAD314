@@ -150,7 +150,7 @@ Transform:
   m_GameObject: {fileID: 3060215195358773626}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.1, y: 0.02, z: 0}
+  m_LocalPosition: {x: -0.1, y: 0.02, z: 0}
   m_LocalScale: {x: 1.2, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -535,6 +535,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5adf650277955e546b3dac9a9a0cb1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  horizontal: 0
+  isFacinRight: 0
+  canFlip: 1
   jumpPower: 8
   movementSpeed: 5
   groundLayer:
@@ -542,6 +545,7 @@ MonoBehaviour:
     m_Bits: 1024
   downFallingForce: 10
   maxSpeed: 15
+  canPlayerMove: 1
   currentHealth: 100
   maximumHealth: 100
   HealthBarUI: {fileID: 0}
@@ -630,6 +634,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10897e6cc3e7acd41adb359fcca0e0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  playerMovement: {fileID: 6438182573200381938}
   lightAttackHitbox: {fileID: 3060215195358773626}
   HeavyAttackHitbox: {fileID: 5577821624821527898}
   HeavyAttackSwivel: {fileID: 311928119861580194}

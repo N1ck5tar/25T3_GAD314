@@ -32,7 +32,13 @@ public class AttackDetection : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<EnemyManager>().TakeDamage(AttackDamage);
-            //Debug.Log("gottem");
+            //Debug.Log("Enemy hit");
+        }
+        
+        if (other.gameObject.tag == "Breakable")
+        {
+            other.gameObject.GetComponent<BreakableWall>().TakeDamage(AttackDamage);
+            Debug.Log("Wall hit");
         }
     }
 }

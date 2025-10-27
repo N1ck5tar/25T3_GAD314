@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
+    
+    public PlayerController playerMovement;
 
     public GameObject lightAttackHitbox;
     public GameObject HeavyAttackHitbox;
@@ -46,27 +48,69 @@ public class PlayerAttack : MonoBehaviour
         StartCoroutine(AttackCooldown(0.32f));
         
         yield return new WaitForSecondsRealtime(0.16f);
+        playerMovement.canFlip = false; 
         lightAttackHitbox.SetActive(true);
 
+        if(playerMovement.isFacinRight == false)
+        {
+            for (float p = -0.15f; p > -1.1f; p -= 0.15f)
+            {
+                lightAttackHitbox.transform.position = transform.position + new Vector3(p, 0f, 0f);
+                yield return new WaitForSecondsRealtime(0.005f);
+            }
+        } else
+        {
+            for (float p = 0.15f; p < 1.1f; p += 0.15f)
+            {
+                lightAttackHitbox.transform.position = transform.position + new Vector3(p, 0f, 0f);
+                yield return new WaitForSecondsRealtime(0.005f);
+            }
+        }
+
         yield return new WaitForSecondsRealtime(0.16f);
+        playerMovement.canFlip = true;
         lightAttackHitbox.SetActive(false);
     }
 
     public IEnumerator HeavyAttack()
     {
+        playerMovement.canFlip = false;
+
+        if(playerMovement.IsGrounded())
+        {
+            playerMovement.horizontal = 0f; 
+            playerMovement.canPlayerMove = false;
+        }
+        
         StartCoroutine(AttackCooldown(0.90f));
         HeavyAttackSwivel.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -115f);
 
         yield return new WaitForSecondsRealtime(0.16f);
         HeavyAttackHitbox.SetActive(true);
 
-        for(float r = -115; r < 20; r += 5)
+        if (playerMovement.isFacinRight == false)
         {
-            HeavyAttackSwivel.transform.rotation = Quaternion.Euler(0.0f, 0.0f, r);
-            yield return new WaitForSecondsRealtime(0.01f);
+            for (float r = -115; r < 20; r += 5)
+            {
+                HeavyAttackSwivel.transform.rotation = Quaternion.Euler(0.0f, 0.0f, r);
+                yield return new WaitForSecondsRealtime(0.01f);
+            }
+        } else
+        {
+            for (float r = 115; r > -20; r -= 5)
+            {
+                HeavyAttackSwivel.transform.rotation = Quaternion.Euler(0.0f, 0.0f, r);
+                yield return new WaitForSecondsRealtime(0.01f);
+            }
         }
 
-        //yield return new WaitForSecondsRealtime(0.48f);
+        playerMovement.canFlip = true;
+
+        if (!playerMovement.canPlayerMove)
+        {
+            playerMovement.canPlayerMove = true;
+        }
+
         HeavyAttackHitbox.SetActive(false);
     }
 
