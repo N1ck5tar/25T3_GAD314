@@ -53,14 +53,14 @@ public class PlayerAttack : MonoBehaviour
 
         if(playerMovement.isFacinRight == false)
         {
-            for (float p = -0.15f; p > -1.1f; p -= 0.15f)
+            for (float p = -0.15f; p > -1f; p -= 0.15f)
             {
                 lightAttackHitbox.transform.position = transform.position + new Vector3(p, 0f, 0f);
                 yield return new WaitForSecondsRealtime(0.005f);
             }
         } else
         {
-            for (float p = 0.15f; p < 1.1f; p += 0.15f)
+            for (float p = 0.5f; p < 1f; p += 0.15f)
             {
                 lightAttackHitbox.transform.position = transform.position + new Vector3(p, 0f, 0f);
                 yield return new WaitForSecondsRealtime(0.005f);
