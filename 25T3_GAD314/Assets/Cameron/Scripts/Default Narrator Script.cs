@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class Room1Audio : MonoBehaviour
+public class DefaultNarratorScript : MonoBehaviour
 {
 
     public float soundLevel = 0.5f; // volume level 0-1, 1 = 100% volume
     public AudioClip[] voiceLines;
+
+    bool hasTriggered;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,10 +23,16 @@ public class Room1Audio : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player" && SoundManager.instance.soundSource.isPlaying == false)
+        if (other.gameObject.tag == "Player" && hasTriggered == false && SoundManager.instance.soundSource.isPlaying == false)
         {
             StartCoroutine(playAudioSequentially()); 
+            hasTriggered = true;         
         }
+    }
+
+    public void ManualTrigger()
+    {
+        StartCoroutine(playAudioSequentially());
     }
 
     IEnumerator playAudioSequentially()
