@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Health")]
     [SerializeField] private float currentHealth;
-    [SerializeField] private float maximumHealth;
+    public float maximumHealth;
     [SerializeField] private Image HealthBarUI;
 
     void Start()

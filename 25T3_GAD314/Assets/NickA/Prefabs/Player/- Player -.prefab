@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 7378020633877413501}
   - component: {fileID: 1962387318692919098}
   m_Layer: 0
-  m_Name: Eye (1)
+  m_Name: Player Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 805452600756409066}
   - component: {fileID: 9177016092211460882}
   m_Layer: 0
-  m_Name: '- Player -'
+  m_Name: Player Body
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -551,9 +551,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 805452600756409066}
+  - {fileID: 7378020633877413501}
   - {fileID: 4482237627824270835}
   - {fileID: 1929302032883969385}
-  - {fileID: 7378020633877413501}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8864421266312230722
