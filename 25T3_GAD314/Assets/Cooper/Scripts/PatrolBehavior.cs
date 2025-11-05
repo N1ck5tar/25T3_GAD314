@@ -14,7 +14,6 @@ public class PatrolBehavior : MonoBehaviour
     public float speed;
     //private bool attack = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -23,9 +22,9 @@ public class PatrolBehavior : MonoBehaviour
         anim.SetBool("isRunning", true);
         //anim.SetBool("attackNow", false);
         //StartCoroutine(Patrol());
+        rb.AddForce(Vector2.up*2000);
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector2 point = currentPoint.position - transform.position;
