@@ -629,12 +629,13 @@ MonoBehaviour:
   horizontal: 0
   isFacinRight: 0
   canFlip: 1
-  jumpPower: 10
+  respawnPoint: {fileID: 0}
+  jumpPower: 12.5
   movementSpeed: 5
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
-  downFallingForce: 10
+  downFallingForce: 20
   maxSpeed: 15
   canPlayerMove: 1
   currentHealth: 100

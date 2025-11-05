@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public bool canFlip;
     private Rigidbody2D rbPlayer;
 
+    [SerializeField] private Transform respawnPoint; // object transform to determine where player respawns on death
 
     [Header("Movement")]
     [SerializeField] private float jumpPower;
@@ -31,8 +33,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Health")]
     [SerializeField] private float currentHealth;
-    public float maximumHealth;
-    [SerializeField] private Image HealthBarUI;
+    public float maximumHealth; // max health the player can have - increased from health upgrades
+    [SerializeField] private Image HealthBarUI; // UI to specifically show the player's health
+
 
     void Start()
     {
@@ -65,12 +68,13 @@ public class PlayerController : MonoBehaviour
                 // Debug.Log(horizontal);
             }
 
-            if (((InputSystem.GetDevice<Keyboard>().spaceKey.isPressed) || (InputSystem.GetDevice<Keyboard>().wKey.isPressed)) && IsGrounded()) // W or Space - jump
+            if (((Keyboard.current.spaceKey.wasPressedThisFrame) || (Keyboard.current.wKey.wasPressedThisFrame)) && IsGrounded()) // W or Space - jump
             {
                 // JUMP
                 rbPlayer.linearVelocity = Vector3.zero;
                 rbPlayer.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-            }
+            }       
+
         }
 
         FlipSprite();
@@ -107,14 +111,16 @@ public class PlayerController : MonoBehaviour
                 velocity = velocity.normalized * maxSpeed;
                 rbPlayer.linearVelocity = velocity; // add clamp limit
             }
-        } else
+        } 
+        
+        else
         {
             rbPlayer.linearVelocity = new Vector2(0, 0);
         }
 
     }
 
-    #region Sprite & Ground Check
+    #region Sprite & Movement Stuff
 
     private void FlipSprite()
     {
@@ -125,7 +131,7 @@ public class PlayerController : MonoBehaviour
 
                 //Debug.Log("flip");
 
-                //flip
+                //flip the sprite
                 isFacinRight = !isFacinRight;
                 Vector3 localScale = transform.localScale;
                 localScale.x *= -1f;
@@ -179,7 +185,13 @@ public class PlayerController : MonoBehaviour
         if (currentHealth <= 0)
         {
             //Debug.Log("player dead");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name); // reload current scene if died
+            if (respawnPoint != null)
+            {
+                gameObject.transform.position = respawnPoint.position; // back to start
+            }
+
+            currentHealth = maximumHealth; // reset health to their max
+            rbPlayer.linearVelocity = Vector3.zero; // stop movement
         }
     }
 

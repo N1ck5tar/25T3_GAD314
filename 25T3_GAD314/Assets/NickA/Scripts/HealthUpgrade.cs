@@ -23,8 +23,8 @@ public class HealthUpgrade : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("Health Upgraded");
-            player.maximumHealth += upgradeHealthValueAmount;
-            player.ModifyPlayerHealth((int)upgradeHealthValueAmount);
+            player.maximumHealth += upgradeHealthValueAmount; // increase player max health
+            player.ModifyPlayerHealth((int)upgradeHealthValueAmount); // heal player by health upgrade amount
             Destroy(gameObject);
         }
     }

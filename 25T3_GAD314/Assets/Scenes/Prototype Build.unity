@@ -1301,6 +1301,7 @@ Transform:
   - {fileID: 194010747}
   - {fileID: 1034682901}
   - {fileID: 226367221}
+  - {fileID: 341566841}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &337182837
@@ -1440,6 +1441,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &341566840
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 341566841}
+  m_Layer: 0
+  m_Name: Respawn Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &341566841
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341566840}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -25.6, y: 7.98, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 329584046}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &414152914
 GameObject:
   m_ObjectHideFlags: 0
@@ -1647,7 +1679,7 @@ Transform:
   m_GameObject: {fileID: 454842733}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 24.63, y: 5.6, z: 0}
+  m_LocalPosition: {x: 24.33, y: 5.6, z: 0}
   m_LocalScale: {x: 3.8476, y: 0.4233, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3555,6 +3587,10 @@ PrefabInstance:
       propertyPath: HealthBarUI
       value: 
       objectReference: {fileID: 879624844}
+    - target: {fileID: 6438182573200381938, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
+      propertyPath: respawnPoint
+      value: 
+      objectReference: {fileID: 341566841}
     - target: {fileID: 8836361899047042864, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
       propertyPath: m_Name
       value: '- Player -'
@@ -7640,8 +7676,8 @@ Transform:
   m_GameObject: {fileID: 2042259327}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25.56, y: -1.6961, z: 0}
-  m_LocalScale: {x: 3.8476, y: 4.915576, z: 1}
+  m_LocalPosition: {x: 25.2522, y: -1.6961, z: 0}
+  m_LocalScale: {x: 4.463216, y: 4.915576, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 329584046}
