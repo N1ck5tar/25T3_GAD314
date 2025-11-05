@@ -8,33 +8,38 @@ public class PatrolBehavior : MonoBehaviour
 
     public GameObject pointA;
     public GameObject pointB;
-    private Rigidbody2D rb;
+    private Rigidbody2D enemyRB;
     private Animator anim;
     private Transform currentPoint;
     public float speed;
-    //private bool attack = false;
+    public bool patrolling;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        patrolling = false;
+        Debug.Log(patrolling);
+        enemyRB = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         currentPoint = pointB.transform;
         anim.SetBool("isRunning", true);
         //anim.SetBool("attackNow", false);
-        //StartCoroutine(Patrol());
-        rb.AddForce(Vector2.up*2000);
+        StartCoroutine(Patrol());
+        
+        
     }
 
     void Update()
     {
-        Vector2 point = currentPoint.position - transform.position;
+        
+
+        /*Vector2 point = currentPoint.position - transform.position;
         if(currentPoint == pointB.transform)
         {
-            rb.linearVelocity = new Vector2(speed, 0); // point b needs to be on the right
+            enemyRB.linearVelocity = new Vector2(speed, 0); // point b needs to be on the right
         }
         else
         {
-            rb.linearVelocity = new Vector2 (-speed, 0); // point a needs to be on the left
+            enemyRB.linearVelocity = new Vector2 (-speed, 0); // point a needs to be on the left
         }
 
         if(Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointB.transform)
@@ -47,7 +52,7 @@ public class PatrolBehavior : MonoBehaviour
         {
             flip();
             currentPoint = pointB.transform;
-        }
+        }*/
         
     }
 
@@ -64,38 +69,37 @@ public class PatrolBehavior : MonoBehaviour
         Gizmos.DrawWireSphere(pointB.transform.position, 0.5f);
         Gizmos.DrawLine(pointA.transform.position, pointB.transform.position);
     }
-    /*
-    bool waitCon()
+
+
+    IEnumerator Patrol()
     {
-        return attack = true;
+
+        while (!patrolling)
+        {
+            Vector2 point = currentPoint.position - transform.position;
+            if (currentPoint == pointB.transform)
+            {
+                enemyRB.linearVelocity = new Vector2(speed, 0); // point b needs to be on the right
+            }
+            else
+            {
+                enemyRB.linearVelocity = new Vector2(-speed, 0); // point a needs to be on the left
+            }
+
+            if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointB.transform)
+            {
+                flip();
+                currentPoint = pointA.transform;
+            }
+
+            if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointA.transform)
+            {
+                flip();
+                currentPoint = pointB.transform;
+            }
+        }
+        yield return null;
+
     }
-
-    private IEnumerator Patrol()
-    {
-        
-        Vector2 point = currentPoint.position - transform.position;
-        if (currentPoint == pointB.transform)
-        {
-            rb.linearVelocity = new Vector2(speed, 0); // point b needs to be on the right
-        }
-        else
-        {
-            rb.linearVelocity = new Vector2(-speed, 0); // point a needs to be on the left
-        }
-
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointB.transform)
-        {
-            flip();
-            currentPoint = pointA.transform;
-        }
-
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointA.transform)
-        {
-            flip();
-            currentPoint = pointB.transform;
-        }
-        yield return new WaitWhile(attack);
-        
-    } */
     
 }
