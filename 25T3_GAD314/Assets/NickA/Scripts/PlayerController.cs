@@ -143,18 +143,26 @@ public class PlayerController : MonoBehaviour
     public bool IsGrounded()
     {
 
-        Vector2 rayPos = transform.position - new Vector3(0, 0.5f, 0); // IMPORTANT NOTE - 0.5 is half the cubes length, this will change with a different object as the player
-        Vector2 rayDir = Vector2.down; 
+        Vector2 playerBase = transform.position - new Vector3(0, 0.5f, 0);
 
+        float offset = 0.295f; // player width - WILL CHANGE WITH NEW PLAYER SIZE
+        Vector2[] rays = {playerBase + new Vector2(-offset, 0), playerBase, playerBase + new Vector2(offset, 0)}; // manually add rays in the arrary
+
+        Vector2 rayDir = Vector2.down; // aim down
         float rayLength = 0.1f;
 
-        //Debug.DrawRay(rayPos, rayDir * rayLength, Color.green);
+        foreach (Vector2 ray in rays)
+        {
+            //Debug.DrawRay(ray, rayDir * rayLength, Color.green); // visual
 
+            RaycastHit2D hit = Physics2D.Raycast(ray, rayDir, rayLength, groundLayer); // shoot ray
+            if (hit.collider != null)
+            {
+                return true; // grounded
+            }
+        }
 
-        RaycastHit2D hit = Physics2D.Raycast(rayPos, rayDir, rayLength, groundLayer); // grab whatever it hit, if it did
-
-   
-        return hit.collider != null;
+        return false; // not grounded
     }
 
     #endregion
