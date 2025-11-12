@@ -31,7 +31,9 @@ public class AttackDetection : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
+            other.gameObject.GetComponent<PatrolBehavior>().KnockBack();
             other.gameObject.GetComponent<EnemyManager>().TakeDamage(AttackDamage);
+            
             //Debug.Log("Enemy hit");
         }
         

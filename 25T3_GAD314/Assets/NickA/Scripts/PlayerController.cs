@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public float horizontal; // direction to move left and right
     public bool isFacinRight;
     public bool canFlip;
-    private Rigidbody2D rbPlayer;
+    public Rigidbody2D rbPlayer;
 
 
     [Header("Movement")]
