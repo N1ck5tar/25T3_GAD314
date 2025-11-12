@@ -97,12 +97,11 @@ public class PlayerController : MonoBehaviour
     {
         if (canPlayerMove == true)
         {
+
             rbPlayer.linearVelocity = new Vector2(horizontal * movementSpeed, rbPlayer.linearVelocity.y);
 
-            if (!IsGrounded())
-            {
-                rbPlayer.AddForce(Vector3.down * downFallingForce, ForceMode2D.Force); // fall faster
-            }
+
+
 
             Vector2 velocity = rbPlayer.linearVelocity;
 
@@ -111,13 +110,12 @@ public class PlayerController : MonoBehaviour
                 velocity = velocity.normalized * maxSpeed;
                 rbPlayer.linearVelocity = velocity; // add clamp limit
             }
-        } 
-        
-        else
-        {
-            rbPlayer.linearVelocity = new Vector2(0, 0);
         }
 
+        if (!IsGrounded())
+        {
+            rbPlayer.AddForce(Vector3.down * downFallingForce, ForceMode2D.Force); // fall faster
+        }
     }
 
     #region Sprite & Movement Stuff
@@ -165,6 +163,41 @@ public class PlayerController : MonoBehaviour
         return false; // not grounded
     }
 
+    public void PlayerKnockback() // used to push the player in the opposite facing direction
+    {
+        //Debug.Log("PlayerKnockback");
+        float pushAmp = 5f;
+
+        if (isFacinRight)
+        {
+           // Debug.Log("left " + pushAmp + (Vector2.left * pushAmp));
+            StartCoroutine(StopPlayerMovement(0.4f));
+            rbPlayer.linearVelocityY = rbPlayer.linearVelocityY * 0.5f;
+            rbPlayer.linearVelocityX = 0f;
+            rbPlayer.AddForce((Vector2.left * pushAmp) + new Vector2(0, 1), ForceMode2D.Impulse);
+        }
+        else
+        {
+            //Debug.Log("right " + pushAmp);
+            StartCoroutine(StopPlayerMovement(0.4f));
+            rbPlayer.linearVelocityY = rbPlayer.linearVelocityY * 0.5f;
+            rbPlayer.linearVelocityX = 0f;
+            rbPlayer.AddForce((Vector2.right * pushAmp) + new Vector2(0, 1), ForceMode2D.Impulse);
+        }
+
+    }
+
+    public IEnumerator StopPlayerMovement(float effectTime)
+    {
+        //Debug.Log("player stopped");
+        canPlayerMove = false;
+
+        yield return new WaitForSeconds(effectTime);
+
+        //Debug.Log("player resumed");
+        canPlayerMove = true;
+    }
+
     #endregion
 
     #region Health
@@ -172,6 +205,11 @@ public class PlayerController : MonoBehaviour
     public void ModifyPlayerHealth(int healthValue)
     {
         currentHealth += healthValue; // Health: + OR - 
+
+        if (healthValue < 0)
+        {
+            PlayerKnockback();
+        }
 
         HealthLimitCheck();
     }
