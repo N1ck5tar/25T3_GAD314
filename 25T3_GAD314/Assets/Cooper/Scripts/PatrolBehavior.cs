@@ -16,10 +16,12 @@ public class PatrolBehavior : MonoBehaviour
     public bool playerDetected;
     //public bool stunned = false;
     public PlayerController playerController;// needed for player local transform
+    public Transform target;
+    public Vector2 moveDirection;
 
     void Start()
     {
-        
+        target = GameObject.Find("- Player -").transform;
         playerDetected = false;
         currentState = EnemyState.Patrol; // Enemies start in Patrol mode
         enemyRB = GetComponent<Rigidbody2D>();
@@ -70,6 +72,26 @@ public class PatrolBehavior : MonoBehaviour
 
             case EnemyState.Chase: // Enemy move towards the player
 
+                if (playerDetected)
+                {
+                    Vector2 player = target.position - transform.position;
+                    moveDirection = player;
+                    enemyRB.linearVelocity = new Vector2(moveDirection.x, 0);
+                    if (enemyRB.transform.localScale.x > player.x) // makes the enemy face the player when chasing them
+                    {
+                        Vector2 localScale = transform.localScale;
+                        localScale.x = -1.562794f;
+                        transform.localScale = localScale;
+                    }
+                    else if (enemyRB.transform.localScale.x > -player.x)
+                    {
+                        Vector2 localScale = transform.localScale;
+                        localScale.x = 1.562794f;
+                        transform.localScale = localScale;
+                    }
+
+                    
+                }
 
             break;
 
@@ -128,7 +150,8 @@ public class PatrolBehavior : MonoBehaviour
         //stunned = true;
         yield return new WaitForSecondsRealtime(wait);
         //stunned = false;
-        currentState = EnemyState.Patrol;
+        playerDetected = true;
+        currentState = EnemyState.Chase;
     }
 
 }
