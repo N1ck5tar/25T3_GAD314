@@ -1,55 +1,134 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class PatrolBehavior : MonoBehaviour
 {
-    //Lines that are commented out are a attempt to have patrol work within a coroutine so other animations could be played like attack
 
-
+    public enum EnemyState { Idle, Patrol, Chase, Attack }
+    public EnemyState currentState; // change this Var into one of states above to affect enemy behaviour
     public GameObject pointA;
     public GameObject pointB;
-    private Rigidbody2D rb;
-    private Animator anim;
+    private Rigidbody2D enemyRB;
+    //private Animator anim;
     private Transform currentPoint;
-    public float speed;
-    //private bool attack = false;
+    public float speed; // affects enemy speed
+    public bool playerDetected;
+    //public bool stunned = false;
+    public PlayerController playerController;// needed for player local transform
+    public Transform target;
+    public Vector2 moveDirection;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        target = GameObject.Find("- Player -").transform;
+        playerDetected = false;
+        currentState = EnemyState.Patrol; // Enemies start in Patrol mode
+        enemyRB = GetComponent<Rigidbody2D>();
+        //anim = GetComponent<Animator>();
         currentPoint = pointB.transform;
-        anim.SetBool("isRunning", true);
-        //anim.SetBool("attackNow", false);
-        //StartCoroutine(Patrol());
+        //anim.SetBool("isRunning", true);
+        
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Vector2 point = currentPoint.position - transform.position;
-        if(currentPoint == pointB.transform)
+        switch (currentState)
         {
-            rb.linearVelocity = new Vector2(speed, 0); // point b needs to be on the right
-        }
-        else
-        {
-            rb.linearVelocity = new Vector2 (-speed, 0); // point a needs to be on the left
-        }
+            case EnemyState.Idle: // Enemy stands still
 
-        if(Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointB.transform)
+            break;
+
+            case EnemyState.Patrol: // Enemy moves back and forth between two set points
+
+                Vector2 point = currentPoint.position - transform.position;
+                if (currentPoint == pointB.transform)
+                {
+                    enemyRB.linearVelocity = new Vector2(speed, 0); // point b needs to be on the right
+                }
+                else
+                {
+                    enemyRB.linearVelocity = new Vector2(-speed, 0); // point a needs to be on the left
+                }
+
+                if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointB.transform)
+                {
+                    flip();
+                    currentPoint = pointA.transform;
+                }
+
+                if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointA.transform)
+                {
+                    flip();
+                    currentPoint = pointB.transform;
+                }
+
+                if (playerDetected)
+                {
+                    currentState = EnemyState.Chase;
+                }
+
+            break;
+
+            case EnemyState.Chase: // Enemy move towards the player
+
+                if (playerDetected)
+                {
+                    Vector2 player = target.position - transform.position;
+                    moveDirection = player;
+                    enemyRB.linearVelocity = new Vector2(moveDirection.x, 0);
+                    if (enemyRB.transform.localScale.x > player.x) // makes the enemy face the player when chasing them
+                    {
+                        Vector2 localScale = transform.localScale;
+                        localScale.x = -1.562794f;
+                        transform.localScale = localScale;
+                    }
+                    else if (enemyRB.transform.localScale.x > -player.x)
+                    {
+                        Vector2 localScale = transform.localScale;
+                        localScale.x = 1.562794f;
+                        transform.localScale = localScale;
+                    }
+
+                    
+                }
+
+            break;
+
+        }
+  
+    }
+
+    public void KnockBack() // Controls knockback to enemies
+    {
+        currentState = EnemyState.Idle; // So enemy transform is only effected by AddForce in this moment
+        Debug.Log("Knocked Back");
+        if (playerController.rbPlayer.transform.localScale.x > 0) // Takes into account which direction the player is facing when applying force
         {
-            flip();
-            currentPoint = pointA.transform;
+            if (enemyRB.transform.localScale.x > 0) // depending on which way the enemy faces different amount of force are applied
+            {
+                enemyRB.AddForceX(-5, ForceMode2D.Impulse);
+            }
+            else if (enemyRB.transform.localScale.x < 0)
+            {
+                enemyRB.AddForceX(-2, ForceMode2D.Impulse);
+            }      
+
+        }
+        else if (playerController.rbPlayer.transform.localScale.x < 0) 
+        {
+            if (enemyRB.transform.localScale.x > 0)
+            {
+                enemyRB.AddForceX(2, ForceMode2D.Impulse);
+            }
+            else if (enemyRB.transform.localScale.x < 0)
+            {
+                enemyRB.AddForceX(5, ForceMode2D.Impulse);
+            }
+
         }
         
-        if(Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointA.transform)
-        {
-            flip();
-            currentPoint = pointB.transform;
-        }
-        
+        StartCoroutine(KnockWait(0.5f));     
     }
 
     private void flip() // changes sprite direction so it faces the way it is walking
@@ -65,38 +144,14 @@ public class PatrolBehavior : MonoBehaviour
         Gizmos.DrawWireSphere(pointB.transform.position, 0.5f);
         Gizmos.DrawLine(pointA.transform.position, pointB.transform.position);
     }
-    /*
-    bool waitCon()
+
+    public IEnumerator KnockWait(float wait) // Makes the enemy wait for a given time so that the knockback can take effect also sets desired state
     {
-        return attack = true;
+        //stunned = true;
+        yield return new WaitForSecondsRealtime(wait);
+        //stunned = false;
+        playerDetected = true;
+        currentState = EnemyState.Chase;
     }
 
-    private IEnumerator Patrol()
-    {
-        
-        Vector2 point = currentPoint.position - transform.position;
-        if (currentPoint == pointB.transform)
-        {
-            rb.linearVelocity = new Vector2(speed, 0); // point b needs to be on the right
-        }
-        else
-        {
-            rb.linearVelocity = new Vector2(-speed, 0); // point a needs to be on the left
-        }
-
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointB.transform)
-        {
-            flip();
-            currentPoint = pointA.transform;
-        }
-
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointA.transform)
-        {
-            flip();
-            currentPoint = pointB.transform;
-        }
-        yield return new WaitWhile(attack);
-        
-    } */
-    
 }
