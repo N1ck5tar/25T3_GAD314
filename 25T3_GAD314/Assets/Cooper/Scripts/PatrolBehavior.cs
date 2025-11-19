@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class PatrolBehavior : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class PatrolBehavior : MonoBehaviour
     public PlayerController playerController;// needed for player local transform
     public Transform target;
     public Vector2 moveDirection;
+    public Collider2D viewCone;
 
     void Start()
     {
@@ -29,6 +31,8 @@ public class PatrolBehavior : MonoBehaviour
         currentPoint = pointB.transform;
         //anim.SetBool("isRunning", true);
         
+
+
     }
 
     void Update()
@@ -145,6 +149,8 @@ public class PatrolBehavior : MonoBehaviour
         Gizmos.DrawLine(pointA.transform.position, pointB.transform.position);
     }
 
+    
+
     public IEnumerator KnockWait(float wait) // Makes the enemy wait for a given time so that the knockback can take effect also sets desired state
     {
         //stunned = true;
@@ -153,5 +159,7 @@ public class PatrolBehavior : MonoBehaviour
         playerDetected = true;
         currentState = EnemyState.Chase;
     }
+
+   
 
 }
