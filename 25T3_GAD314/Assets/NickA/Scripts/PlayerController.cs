@@ -53,11 +53,11 @@ public class PlayerController : MonoBehaviour
         {
             if (Keyboard.current != null)
             {
-                if (Keyboard.current.aKey.isPressed) // A - left
+                if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) // A - left
                 {
                     horizontal = -1f;
                 }
-                else if (Keyboard.current.dKey.isPressed) // D - right
+                else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) // D - right
                 {
                     horizontal = 1f;
                 }
@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
                 // Debug.Log(horizontal);
             }
 
-            if (((Keyboard.current.spaceKey.wasPressedThisFrame) || (Keyboard.current.wKey.wasPressedThisFrame)) && IsGrounded()) // W or Space - jump
+            if (((Keyboard.current.spaceKey.wasPressedThisFrame) && IsGrounded() || (Keyboard.current.wKey.wasPressedThisFrame) && IsGrounded() || (Keyboard.current.upArrowKey.wasPressedThisFrame) && IsGrounded() || (Keyboard.current.zKey.wasPressedThisFrame)) && IsGrounded()) // W or Space - jump
             {
                 // JUMP
                 rbPlayer.linearVelocity = Vector3.zero;

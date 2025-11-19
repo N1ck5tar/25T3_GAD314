@@ -49,6 +49,12 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void LoadSceneByName(string sceneName)
+    {
+        Debug.Log("Loading [" + sceneName + "] scene");
+        SceneManager.LoadScene(sceneName); // change the scene
+    }
+
     public void QuitGame()
     {      
         Application.Quit();
