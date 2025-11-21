@@ -18,6 +18,7 @@ public class PatrolBehavior : MonoBehaviour
     public PlayerController playerController;// needed for player local transform
     public Transform target;
     public Vector2 moveDirection;
+    public SpriteRenderer enemySprite; 
 
     void Start()
     {
@@ -79,15 +80,15 @@ public class PatrolBehavior : MonoBehaviour
                     enemyRB.linearVelocity = new Vector2(moveDirection.x, 0);
                     if (enemyRB.transform.localScale.x > player.x) // makes the enemy face the player when chasing them
                     {
-                        Vector2 localScale = transform.localScale;
-                        localScale.x = -1.562794f;
-                        transform.localScale = localScale;
+                        Vector2 localScale = enemySprite.transform.localScale;
+                        localScale.x = -1;
+                        enemySprite.transform.localScale = localScale;
                     }
                     else if (enemyRB.transform.localScale.x > -player.x)
                     {
-                        Vector2 localScale = transform.localScale;
-                        localScale.x = 1.562794f;
-                        transform.localScale = localScale;
+                        Vector2 localScale = enemySprite.transform.localScale;
+                        localScale.x = 1;
+                        enemySprite.transform.localScale = localScale;
                     }
 
                     
@@ -133,9 +134,9 @@ public class PatrolBehavior : MonoBehaviour
 
     private void flip() // changes sprite direction so it faces the way it is walking
     {
-        Vector3 localScale = transform.localScale;
+        Vector3 localScale = enemySprite.transform.localScale;
         localScale.x *= -1;
-        transform.localScale = localScale;
+        enemySprite.transform.localScale = localScale;
     }
 
     private void OnDrawGizmos() // shows where patrol is in scene view

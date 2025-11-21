@@ -23,8 +23,14 @@ public class DefaultNarratorScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player" && hasTriggered == false && SoundManager.instance.soundSource.isPlaying == false)
+        if (other.gameObject.tag == "Player" && hasTriggered == false)
         {
+            if(SoundManager.instance.soundSource.isPlaying == true)
+            {
+                SoundManager.instance.soundSource.Stop(); 
+                 //Stop the current audio coroutine
+            }
+            
             StartCoroutine(playAudioSequentially()); 
             hasTriggered = true;         
         }
@@ -33,6 +39,11 @@ public class DefaultNarratorScript : MonoBehaviour
     public void ManualTrigger()
     {
         StartCoroutine(playAudioSequentially());
+    }
+
+    public void ManualStop()
+    {
+        StopCoroutine(playAudioSequentially());
     }
 
     IEnumerator playAudioSequentially()
