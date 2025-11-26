@@ -4624,14 +4624,6 @@ PrefabInstance:
       propertyPath: m_Offset.x
       value: -0.0011987686
       objectReference: {fileID: 0}
-    - target: {fileID: 1217787934680019397, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.41
-      objectReference: {fileID: 0}
-    - target: {fileID: 1217787934680019397, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.59
-      objectReference: {fileID: 0}
     - target: {fileID: 3543412093834576627, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.23
@@ -4684,10 +4676,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: '- Player -'
       objectReference: {fileID: 0}
-    - target: {fileID: 8864421266312230722, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 2302164890375085890, guid: c2ec527b27431a84ba30d5d033cab863, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
