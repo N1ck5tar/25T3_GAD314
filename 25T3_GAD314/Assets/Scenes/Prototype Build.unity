@@ -1462,7 +1462,7 @@ GameObject:
   - component: {fileID: 339008470}
   - component: {fileID: 339008469}
   - component: {fileID: 339008467}
-  - component: {fileID: 339008474}
+  - component: {fileID: 339008475}
   m_Layer: 0
   m_Name: TheKnight1_0
   m_TagString: Untagged
@@ -1482,7 +1482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10897e6cc3e7acd41adb359fcca0e0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  playerMovement: {fileID: 339008474}
+  playerMovement: {fileID: 0}
   lightAttackHitbox: {fileID: 2142358932}
   HeavyAttackHitbox: {fileID: 1454085995}
   HeavyAttackSwivel: {fileID: 1630162643}
@@ -1650,13 +1650,13 @@ Transform:
   m_GameObject: {fileID: 339008466}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.95, y: 0.34, z: 0}
+  m_LocalPosition: {x: -14.53, y: 0.34, z: 0}
   m_LocalScale: {x: 2.9333165, y: 2.8464053, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &339008474
+--- !u!114 &339008475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1672,9 +1672,9 @@ MonoBehaviour:
   isFacinRight: 0
   canFlip: 1
   rbPlayer: {fileID: 0}
-  respawnPoint: {fileID: 341566841}
-  jumpPower: 12.5
-  jumpHoldPower: 0
+  respawnPoint: {fileID: 0}
+  jumpPower: 8
+  jumpHoldPower: 0.5
   movementSpeed: 5
   groundLayer:
     serializedVersion: 2
@@ -1683,11 +1683,11 @@ MonoBehaviour:
   maxSpeed: 15
   canPlayerMove: 1
   isJumping: 0
-  maxJumpTime: 0
+  maxJumpTime: 0.25
   jumpTimer: 0
   currentHealth: 100
   maximumHealth: 100
-  HealthBarUI: {fileID: 879624844}
+  HealthBarUI: {fileID: 0}
 --- !u!1 &341566840
 GameObject:
   m_ObjectHideFlags: 0
@@ -8729,8 +8729,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 1086948554498318821}
   - {fileID: 495481240}
-  - {fileID: 339008473}
   - {fileID: 816501906}
+  - {fileID: 339008473}
   - {fileID: 329584046}
   - {fileID: 619394802}
   - {fileID: 789342333}
