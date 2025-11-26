@@ -629,8 +629,10 @@ MonoBehaviour:
   horizontal: 0
   isFacinRight: 0
   canFlip: 1
+  rbPlayer: {fileID: 0}
   respawnPoint: {fileID: 0}
-  jumpPower: 12.5
+  jumpPower: 8
+  jumpHoldPower: 0.5
   movementSpeed: 5
   groundLayer:
     serializedVersion: 2
@@ -638,6 +640,9 @@ MonoBehaviour:
   downFallingForce: 20
   maxSpeed: 15
   canPlayerMove: 1
+  isJumping: 0
+  maxJumpTime: 0.25
+  jumpTimer: 0
   currentHealth: 100
   maximumHealth: 100
   HealthBarUI: {fileID: 0}

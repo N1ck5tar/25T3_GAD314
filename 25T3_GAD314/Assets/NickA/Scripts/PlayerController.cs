@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -20,16 +21,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform respawnPoint; // object transform to determine where player respawns on death
 
     [Header("Movement")]
-    [SerializeField] private float jumpPower;
+    [SerializeField] private float jumpPower; // press force
+    [SerializeField] private float jumpHoldPower; // holding force (continuous)
     [SerializeField] private float movementSpeed;
 
     [SerializeField] private LayerMask groundLayer;
 
     [SerializeField] private float downFallingForce;
 
-    [SerializeField] private float maxSpeed;
+    [SerializeField] private float maxSpeed; // max moving speed for the player
 
     public bool canPlayerMove = true; // false = no, true = yes
+
+    [SerializeField] private bool isJumping = false;
+    [SerializeField] private float maxJumpTime; // max jump hold time
+    [SerializeField] private float jumpTimer; // how long player has held jump for
 
     [Header("Player Health")]
     [SerializeField] private float currentHealth;
@@ -53,6 +59,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Keyboard.current != null)
             {
+                // A or D || Left arrow or Right arrow
                 if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) // A - left
                 {
                     horizontal = -1f;
@@ -68,13 +75,7 @@ public class PlayerController : MonoBehaviour
                 // Debug.Log(horizontal);
             }
 
-            if (((Keyboard.current.spaceKey.wasPressedThisFrame) && IsGrounded() || (Keyboard.current.wKey.wasPressedThisFrame) && IsGrounded() || (Keyboard.current.upArrowKey.wasPressedThisFrame) && IsGrounded() || (Keyboard.current.zKey.wasPressedThisFrame)) && IsGrounded()) // W or Space - jump
-            {
-                // JUMP
-                rbPlayer.linearVelocity = Vector3.zero;
-                rbPlayer.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-            }       
-
+            
         }
 
         FlipSprite();
@@ -91,17 +92,54 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        #region Jump Press & Release
+        // 'spacebar' 'w' 'up arrow' 'z'
+        if (((Keyboard.current.spaceKey.wasPressedThisFrame) && IsGrounded() || (Keyboard.current.wKey.wasPressedThisFrame) && IsGrounded() || (Keyboard.current.upArrowKey.wasPressedThisFrame) && IsGrounded() || (Keyboard.current.zKey.wasPressedThisFrame)) && IsGrounded()) // W or Space - jump
+        {
+            // STARTING JUMP
+            //Debug.Log("jump press");
+
+            isJumping = true;
+            jumpTimer = 0f; // reset time
+
+            rbPlayer.linearVelocity = Vector3.zero;
+            rbPlayer.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+        }
+
+        if (Keyboard.current.spaceKey.wasReleasedThisFrame || Keyboard.current.wKey.wasReleasedThisFrame || Keyboard.current.upArrowKey.wasReleasedThisFrame || Keyboard.current.zKey.wasReleasedThisFrame)
+        {
+            // STOP JUMP
+            //Debug.Log("stop jump");
+
+            isJumping = false;
+        }
+        #endregion
     }
 
     private void FixedUpdate()
     {
+
+        #region Jump Hold 
+        if (isJumping && Keyboard.current.spaceKey.isPressed || isJumping && Keyboard.current.wKey.isPressed || isJumping && Keyboard.current.upArrowKey.isPressed || isJumping && Keyboard.current.zKey.isPressed)
+        {
+            if (jumpTimer < maxJumpTime)
+            {
+                //Debug.Log("jump hold");
+
+                jumpTimer += Time.deltaTime;
+                rbPlayer.AddForce(Vector2.up * jumpHoldPower, ForceMode2D.Impulse);
+            }
+            else
+            {
+                //Debug.Log("out of jump hold");
+            }
+        }
+        #endregion
+
         if (canPlayerMove == true)
         {
 
             rbPlayer.linearVelocity = new Vector2(horizontal * movementSpeed, rbPlayer.linearVelocity.y);
-
-
-
 
             Vector2 velocity = rbPlayer.linearVelocity;
 
