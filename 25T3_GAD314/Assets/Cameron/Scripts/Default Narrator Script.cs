@@ -22,7 +22,8 @@ public class DefaultNarratorScript : MonoBehaviour
     {
         if(SoundManager.instance.interruptAudio == true)
         {
-            ManualStop();
+            ManualStop(); 
+            SoundManager.instance.interruptAudio = false;
         }
     }
 
@@ -30,11 +31,11 @@ public class DefaultNarratorScript : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && hasTriggered == false)
         {
-            SoundManager.instance.StopClip();
             SoundManager.instance.interruptAudio = true;
+            SoundManager.instance.StopClip();
 
             StartCoroutine(narration); 
-            hasTriggered = true;         
+            hasTriggered = true;
         }
     }
 
@@ -46,11 +47,12 @@ public class DefaultNarratorScript : MonoBehaviour
     public void ManualStop()
     {
         StopCoroutine(narration);
+        Debug.Log("stopping coroutine now");
     }
 
     IEnumerator playAudioSequentially()
     {
-        SoundManager.instance.interruptAudio = false;
+        //SoundManager.instance.interruptAudio = false;
 
         yield return null;
 

@@ -7,7 +7,7 @@ public class SoundManager : MonoBehaviour
 
     public AudioSource soundSource;
 
-    public bool interruptAudio; 
+    public bool interruptAudio = false; 
 
     void Awake() // ensure only a single instance of the sound manager exists
     {
@@ -25,12 +25,14 @@ public class SoundManager : MonoBehaviour
     public void PlaySound(AudioClip clip, float soundVolume)
     {
         soundSource.volume = soundVolume; // volume to play out
-        soundSource.PlayOneShot(clip); // clip to play
+
+        soundSource.clip = clip;
+        soundSource.Play(); // clip to play
     }
 
     public void StopClip()
     {
         soundSource.Stop();
-        Debug.Log("stopping clip");
+        //Debug.Log("stopping clip");
     }
 }

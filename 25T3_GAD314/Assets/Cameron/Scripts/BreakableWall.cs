@@ -38,6 +38,9 @@ public class BreakableWall : MonoBehaviour
         {
             if(SoundManager.instance.soundSource.isPlaying == false)
             {
+                SoundManager.instance.StopClip();
+                SoundManager.instance.interruptAudio = true;
+
                 StartCoroutine(playAudioSequentially());
             }
 

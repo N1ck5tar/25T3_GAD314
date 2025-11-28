@@ -6,16 +6,43 @@ public class HPPickupAudioPlayer : MonoBehaviour
     public float soundLevel = 0.5f; // volume level 0-1, 1 = 100% volume
     public AudioClip[] voiceLines;
 
-    public void ManualTrigger(int startingNumber)
+    int firstLine;
+
+    IEnumerator narration;
+
+    void Start()
     {
-        StartCoroutine(playAudioSequentially(startingNumber));
+        narration = playAudioSequentially();
     }
 
-    IEnumerator playAudioSequentially(int startingLine)
+    void Update()
+    {
+        if (SoundManager.instance.interruptAudio == true)
+        {
+            ManualStop();
+        }
+    }
+
+    public void ManualTrigger(int startingNumber)
+    {
+        firstLine = startingNumber;
+
+        SoundManager.instance.StopClip();
+        SoundManager.instance.interruptAudio = true;
+
+        StartCoroutine(narration);
+    }
+
+    public void ManualStop()
+    {
+        StopCoroutine(narration);
+    }
+
+    IEnumerator playAudioSequentially()
     {
         yield return null;
 
-        for (int i = startingLine; i < voiceLines.Length; i++)
+        for (int i = firstLine; i < voiceLines.Length; i++)
         {
             SoundManager.instance.PlaySound(voiceLines[i], soundLevel);
 
