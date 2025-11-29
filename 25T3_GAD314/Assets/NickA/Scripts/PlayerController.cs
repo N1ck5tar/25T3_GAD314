@@ -42,10 +42,14 @@ public class PlayerController : MonoBehaviour
     public float maximumHealth; // max health the player can have - increased from health upgrades
     [SerializeField] private Image HealthBarUI; // UI to specifically show the player's health
 
+    private Animator anim; 
+
 
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody2D>();
+
+        anim = GetComponent<Animator>();
 
         if (rbPlayer == null)
         {
@@ -63,14 +67,17 @@ public class PlayerController : MonoBehaviour
                 if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) // A - left
                 {
                     horizontal = -1f;
+                    anim.SetBool("IsRunning", true); // controls running animation when moving left
                 }
                 else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) // D - right
                 {
                     horizontal = 1f;
+                    anim.SetBool("IsRunning", true); // controls running animation when moving right
                 }
                 else // no input
                 {
                     horizontal = 0f;
+                    anim.SetBool("IsRunning", false); // turns off running animation when stationary
                 }
                 // Debug.Log(horizontal);
             }
