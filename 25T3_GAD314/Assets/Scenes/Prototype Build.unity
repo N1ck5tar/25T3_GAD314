@@ -3978,9 +3978,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6438182573200381938, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
+      propertyPath: HealthBarUI
+      value: 
+      objectReference: {fileID: 879624844}
+    - target: {fileID: 6438182573200381938, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
       propertyPath: isFacinRight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6438182573200381938, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
+      propertyPath: respawnPoint
+      value: 
+      objectReference: {fileID: 341566841}
     - target: {fileID: 8836361899047042864, guid: 9a05ac45fc0ef7649be018c6c96f9c95, type: 3}
       propertyPath: m_Name
       value: '- Player -'
