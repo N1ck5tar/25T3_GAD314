@@ -92,11 +92,9 @@ public class PlayerController : MonoBehaviour
             HealthBarUpdate();
             IsPlayerDead();
         }
-
         else
         {
             Debug.Log("No Health bar UI connected");
-            return;
         }
 
         #region Jump Press & Release
@@ -111,6 +109,10 @@ public class PlayerController : MonoBehaviour
 
             rbPlayer.linearVelocity = Vector3.zero;
             rbPlayer.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+        }
+        else
+        {
+            //Debug.Log("no jump: " + IsGrounded());
         }
 
         if (Keyboard.current.spaceKey.wasReleasedThisFrame || Keyboard.current.wKey.wasReleasedThisFrame || Keyboard.current.upArrowKey.wasReleasedThisFrame || Keyboard.current.zKey.wasReleasedThisFrame)
@@ -186,9 +188,9 @@ public class PlayerController : MonoBehaviour
     public bool IsGrounded()
     {
 
-        Vector2 playerBase = transform.position - new Vector3(0, 0.5f, 0);
+        Vector2 playerBase = transform.position - new Vector3(0, 0.75f, 0);
 
-        float offset = 0.295f; // player width - WILL CHANGE WITH NEW PLAYER SIZE
+        float offset = 0.5f; // player width - WILL CHANGE WITH NEW PLAYER SIZE
         Vector2[] rays = {playerBase + new Vector2(-offset, 0), playerBase, playerBase + new Vector2(offset, 0)}; // manually add rays in the arrary
 
         Vector2 rayDir = Vector2.down; // aim down
@@ -199,6 +201,7 @@ public class PlayerController : MonoBehaviour
             //Debug.DrawRay(ray, rayDir * rayLength, Color.green); // visual
 
             RaycastHit2D hit = Physics2D.Raycast(ray, rayDir, rayLength, groundLayer); // shoot ray
+            //Debug.DrawRay(ray, rayDir, Color.red); // ray check
             if (hit.collider != null)
             {
                 return true; // grounded
