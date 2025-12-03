@@ -9,34 +9,51 @@ public class DefaultNarratorScript : MonoBehaviour
 
     bool hasTriggered;
 
+    IEnumerator narration;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        narration = playAudioSequentially(); 
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(SoundManager.instance.interruptAudio == true)
+        {
+            ManualStop(); 
+            SoundManager.instance.interruptAudio = false;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player" && hasTriggered == false && SoundManager.instance.soundSource.isPlaying == false)
+        if (other.gameObject.tag == "Player" && hasTriggered == false)
         {
-            StartCoroutine(playAudioSequentially()); 
-            hasTriggered = true;         
+            SoundManager.instance.interruptAudio = true;
+            SoundManager.instance.StopClip();
+
+            StartCoroutine(narration); 
+            hasTriggered = true;
         }
     }
 
     public void ManualTrigger()
     {
-        StartCoroutine(playAudioSequentially());
+        StartCoroutine(narration);
+    }
+
+    public void ManualStop()
+    {
+        StopCoroutine(narration);
+        Debug.Log("stopping coroutine now");
     }
 
     IEnumerator playAudioSequentially()
     {
+        //SoundManager.instance.interruptAudio = false;
+
         yield return null;
 
         for (int i = 0; i < voiceLines.Length; i++)

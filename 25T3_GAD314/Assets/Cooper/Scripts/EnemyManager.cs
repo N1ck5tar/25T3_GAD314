@@ -22,7 +22,7 @@ public class EnemyManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        HPSlider.value = EnemyHP;
+        //HPSlider.value = EnemyHP;
 
     }
 

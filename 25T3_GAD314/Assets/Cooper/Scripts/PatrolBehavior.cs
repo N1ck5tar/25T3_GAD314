@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
-using Unity.VisualScripting;
 
 public class PatrolBehavior : MonoBehaviour
 {
@@ -19,7 +18,7 @@ public class PatrolBehavior : MonoBehaviour
     public PlayerController playerController;// needed for player local transform
     public Transform target;
     public Vector2 moveDirection;
-    public Collider2D viewCone;
+    public SpriteRenderer enemySprite; 
 
     void Start()
     {
@@ -31,8 +30,6 @@ public class PatrolBehavior : MonoBehaviour
         currentPoint = pointB.transform;
         //anim.SetBool("isRunning", true);
         
-
-
     }
 
     void Update()
@@ -83,15 +80,15 @@ public class PatrolBehavior : MonoBehaviour
                     enemyRB.linearVelocity = new Vector2(moveDirection.x, 0);
                     if (enemyRB.transform.localScale.x > player.x) // makes the enemy face the player when chasing them
                     {
-                        Vector2 localScale = transform.localScale;
-                        localScale.x = -1.562794f;
-                        transform.localScale = localScale;
+                        Vector2 localScale = enemySprite.transform.localScale;
+                        localScale.x = -1;
+                        enemySprite.transform.localScale = localScale;
                     }
                     else if (enemyRB.transform.localScale.x > -player.x)
                     {
-                        Vector2 localScale = transform.localScale;
-                        localScale.x = 1.562794f;
-                        transform.localScale = localScale;
+                        Vector2 localScale = enemySprite.transform.localScale;
+                        localScale.x = 1;
+                        enemySprite.transform.localScale = localScale;
                     }
 
                     
@@ -137,9 +134,9 @@ public class PatrolBehavior : MonoBehaviour
 
     private void flip() // changes sprite direction so it faces the way it is walking
     {
-        Vector3 localScale = transform.localScale;
+        Vector3 localScale = enemySprite.transform.localScale;
         localScale.x *= -1;
-        transform.localScale = localScale;
+        enemySprite.transform.localScale = localScale;
     }
 
     private void OnDrawGizmos() // shows where patrol is in scene view
@@ -149,8 +146,6 @@ public class PatrolBehavior : MonoBehaviour
         Gizmos.DrawLine(pointA.transform.position, pointB.transform.position);
     }
 
-    
-
     public IEnumerator KnockWait(float wait) // Makes the enemy wait for a given time so that the knockback can take effect also sets desired state
     {
         //stunned = true;
@@ -159,7 +154,5 @@ public class PatrolBehavior : MonoBehaviour
         playerDetected = true;
         currentState = EnemyState.Chase;
     }
-
-   
 
 }

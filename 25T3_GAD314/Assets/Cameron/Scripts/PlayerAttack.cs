@@ -16,12 +16,15 @@ public class PlayerAttack : MonoBehaviour
     public int lightAttackDamage; 
     public int heavyAttackDamage;
 
+    private Animator anim;
+
     bool attackOnCooldown; 
 
     void Start()
     {
         //lightAttackDamage = 5; 
         //heavyAttackDamage = 15;
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -31,13 +34,20 @@ public class PlayerAttack : MonoBehaviour
         if (Keyboard.current != null)
         {
 
-            if(Keyboard.current.oKey.isPressed && !attackOnCooldown) // O - Light Attack
+            if (Keyboard.current.xKey.isPressed && !attackOnCooldown || Mouse.current.leftButton.isPressed && !attackOnCooldown) // X or Left click - Light Attack
             {
                 StartCoroutine(LightAttack());
+                anim.SetBool("IsLight", true);
             }
-            else if (Keyboard.current.pKey.isPressed && !attackOnCooldown) // P - Heavy Attack
+            else if (Keyboard.current.cKey.isPressed && !attackOnCooldown || Mouse.current.rightButton.isPressed && !attackOnCooldown) // C / Right click - Heavy Attack
             {
                 StartCoroutine(HeavyAttack());
+                anim.SetBool("IsHeavy", true);
+            }
+            else
+            {
+                anim.SetBool("IsHeavy", false);
+                anim.SetBool("IsLight", false);
             }
         }
 
