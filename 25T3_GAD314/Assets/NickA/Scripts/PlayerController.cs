@@ -106,6 +106,7 @@ public class PlayerController : MonoBehaviour
 
             isJumping = true;
             jumpTimer = 0f; // reset time
+            anim.SetBool("IsJumping", true);
 
             rbPlayer.linearVelocity = Vector3.zero;
             rbPlayer.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
@@ -121,6 +122,7 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("stop jump");
 
             isJumping = false;
+            anim.SetBool("IsJumping", false);
         }
         #endregion
     }
