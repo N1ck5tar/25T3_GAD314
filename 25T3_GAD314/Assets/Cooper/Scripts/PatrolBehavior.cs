@@ -81,13 +81,13 @@ public class PatrolBehavior : MonoBehaviour
                     if (enemyRB.transform.localScale.x > player.x) // makes the enemy face the player when chasing them
                     {
                         Vector2 localScale = enemySprite.transform.localScale;
-                        localScale.x = -1;
+                        localScale.x = -2.258549f;
                         enemySprite.transform.localScale = localScale;
                     }
                     else if (enemyRB.transform.localScale.x > -player.x)
                     {
                         Vector2 localScale = enemySprite.transform.localScale;
-                        localScale.x = 1;
+                        localScale.x = 2.258549f;
                         enemySprite.transform.localScale = localScale;
                     }
 
