@@ -11,7 +11,7 @@ public class EnemyManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        HPSlider.maxValue = EnemyHP;
+        //HPSlider.maxValue = EnemyHP;
     }
 
     // Update is called once per frame
@@ -22,7 +22,7 @@ public class EnemyManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        HPSlider.value = EnemyHP;
+        //HPSlider.value = EnemyHP;
 
     }
 
