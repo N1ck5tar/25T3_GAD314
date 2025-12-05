@@ -2685,6 +2685,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 612967241}
+    - target: {fileID: 2993894228545493390, guid: 219761ede9e7d1d4d8b484de00a5f8a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 612967241}
+    - target: {fileID: 2993894228545493390, guid: 219761ede9e7d1d4d8b484de00a5f8a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QuitGame
+      objectReference: {fileID: 0}
     - target: {fileID: 4488348248446921740, guid: 219761ede9e7d1d4d8b484de00a5f8a4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2778,9 +2786,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5953670152945560074, guid: 219761ede9e7d1d4d8b484de00a5f8a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5953670152945560074, guid: 219761ede9e7d1d4d8b484de00a5f8a4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 612967241}
+    - target: {fileID: 5953670152945560074, guid: 219761ede9e7d1d4d8b484de00a5f8a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadSceneByName
+      objectReference: {fileID: 0}
+    - target: {fileID: 5953670152945560074, guid: 219761ede9e7d1d4d8b484de00a5f8a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Title Screen
+      objectReference: {fileID: 0}
     - target: {fileID: 6440583361646801479, guid: 219761ede9e7d1d4d8b484de00a5f8a4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
