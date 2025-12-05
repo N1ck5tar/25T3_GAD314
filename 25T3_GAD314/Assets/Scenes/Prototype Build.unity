@@ -2791,7 +2791,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6461732073847731786, guid: 219761ede9e7d1d4d8b484de00a5f8a4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390958382020525980, guid: 219761ede9e7d1d4d8b484de00a5f8a4, type: 3}
+      propertyPath: m_text
+      value: Restart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4163,7 +4167,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
