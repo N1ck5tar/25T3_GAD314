@@ -42,10 +42,14 @@ public class PlayerController : MonoBehaviour
     public float maximumHealth; // max health the player can have - increased from health upgrades
     [SerializeField] private Image HealthBarUI; // UI to specifically show the player's health
 
+    private Animator anim; 
+
 
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody2D>();
+
+        anim = GetComponent<Animator>();
 
         if (rbPlayer == null)
         {
@@ -63,14 +67,17 @@ public class PlayerController : MonoBehaviour
                 if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) // A - left
                 {
                     horizontal = -1f;
+                    anim.SetBool("IsRunning", true); // controls running animation when moving left
                 }
                 else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) // D - right
                 {
                     horizontal = 1f;
+                    anim.SetBool("IsRunning", true); // controls running animation when moving right
                 }
                 else // no input
                 {
                     horizontal = 0f;
+                    anim.SetBool("IsRunning", false); // turns off running animation when stationary
                 }
                 // Debug.Log(horizontal);
             }
@@ -85,11 +92,9 @@ public class PlayerController : MonoBehaviour
             HealthBarUpdate();
             IsPlayerDead();
         }
-
         else
         {
             Debug.Log("No Health bar UI connected");
-            return;
         }
 
         #region Jump Press & Release
@@ -101,9 +106,14 @@ public class PlayerController : MonoBehaviour
 
             isJumping = true;
             jumpTimer = 0f; // reset time
+            anim.SetBool("IsJumping", true);
 
             rbPlayer.linearVelocity = Vector3.zero;
             rbPlayer.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+        }
+        else
+        {
+            //Debug.Log("no jump: " + IsGrounded());
         }
 
         if (Keyboard.current.spaceKey.wasReleasedThisFrame || Keyboard.current.wKey.wasReleasedThisFrame || Keyboard.current.upArrowKey.wasReleasedThisFrame || Keyboard.current.zKey.wasReleasedThisFrame)
@@ -112,6 +122,7 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("stop jump");
 
             isJumping = false;
+            anim.SetBool("IsJumping", false);
         }
         #endregion
     }
@@ -179,9 +190,9 @@ public class PlayerController : MonoBehaviour
     public bool IsGrounded()
     {
 
-        Vector2 playerBase = transform.position - new Vector3(0, 0.5f, 0);
+        Vector2 playerBase = transform.position - new Vector3(0, 0.75f, 0);
 
-        float offset = 0.295f; // player width - WILL CHANGE WITH NEW PLAYER SIZE
+        float offset = 0.5f; // player width - WILL CHANGE WITH NEW PLAYER SIZE
         Vector2[] rays = {playerBase + new Vector2(-offset, 0), playerBase, playerBase + new Vector2(offset, 0)}; // manually add rays in the arrary
 
         Vector2 rayDir = Vector2.down; // aim down
@@ -192,6 +203,7 @@ public class PlayerController : MonoBehaviour
             //Debug.DrawRay(ray, rayDir * rayLength, Color.green); // visual
 
             RaycastHit2D hit = Physics2D.Raycast(ray, rayDir, rayLength, groundLayer); // shoot ray
+            //Debug.DrawRay(ray, rayDir, Color.red); // ray check
             if (hit.collider != null)
             {
                 return true; // grounded

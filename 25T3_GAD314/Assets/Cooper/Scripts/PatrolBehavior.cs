@@ -81,13 +81,13 @@ public class PatrolBehavior : MonoBehaviour
                     if (enemyRB.transform.localScale.x > player.x) // makes the enemy face the player when chasing them
                     {
                         Vector2 localScale = enemySprite.transform.localScale;
-                        localScale.x = -1;
+                        localScale.x = -2.258549f;
                         enemySprite.transform.localScale = localScale;
                     }
                     else if (enemyRB.transform.localScale.x > -player.x)
                     {
                         Vector2 localScale = enemySprite.transform.localScale;
-                        localScale.x = 1;
+                        localScale.x = 2.258549f;
                         enemySprite.transform.localScale = localScale;
                     }
 
@@ -108,11 +108,11 @@ public class PatrolBehavior : MonoBehaviour
         {
             if (enemyRB.transform.localScale.x > 0) // depending on which way the enemy faces different amount of force are applied
             {
-                enemyRB.AddForceX(-5, ForceMode2D.Impulse);
+                enemyRB.AddForceX(2, ForceMode2D.Impulse);
             }
             else if (enemyRB.transform.localScale.x < 0)
             {
-                enemyRB.AddForceX(-2, ForceMode2D.Impulse);
+                enemyRB.AddForceX(5, ForceMode2D.Impulse);
             }      
 
         }
@@ -120,11 +120,11 @@ public class PatrolBehavior : MonoBehaviour
         {
             if (enemyRB.transform.localScale.x > 0)
             {
-                enemyRB.AddForceX(2, ForceMode2D.Impulse);
+                enemyRB.AddForceX(-5, ForceMode2D.Impulse);
             }
             else if (enemyRB.transform.localScale.x < 0)
             {
-                enemyRB.AddForceX(5, ForceMode2D.Impulse);
+                enemyRB.AddForceX(-2, ForceMode2D.Impulse);
             }
 
         }
