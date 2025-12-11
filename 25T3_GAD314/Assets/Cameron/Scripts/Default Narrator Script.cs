@@ -11,6 +11,8 @@ public class DefaultNarratorScript : MonoBehaviour
 
     IEnumerator narration;
 
+    public GameObject previousTrigger; 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,18 +22,14 @@ public class DefaultNarratorScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(SoundManager.instance.interruptAudio == true)
-        {
-            ManualStop(); 
-            SoundManager.instance.interruptAudio = false;
-        }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player" && hasTriggered == false)
         {
-            SoundManager.instance.interruptAudio = true;
+            ManualStop(); 
             SoundManager.instance.StopClip();
 
             StartCoroutine(narration); 
@@ -46,8 +44,10 @@ public class DefaultNarratorScript : MonoBehaviour
 
     public void ManualStop()
     {
-        StopCoroutine(narration);
-        Debug.Log("stopping coroutine now");
+        if(previousTrigger != null)
+        {
+            Destroy(previousTrigger);
+        }
     }
 
     IEnumerator playAudioSequentially()
